@@ -2,20 +2,23 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const mysql = require("mysql2");
+require("dotenv").config();
 
 app.use(express.json());
 app.use(cors()); //cross-origin resource sharing
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "BotZilla_@2000",
-  database: "pern_todo",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PWD,
+  database: process.env.DB_NAME,
 });
 
 db.connect((err) => {
   if (!err) {
     console.log("connected to database successfully");
+  } else {
+    console.log(`Failed to connect to the database: ${err.message}`);
   }
 });
 
