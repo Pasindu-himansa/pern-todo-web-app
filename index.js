@@ -20,7 +20,6 @@ db.connect((err) => {
 });
 
 app.post("/new-task", (req, res) => {
-  console.log(req.body);
   const q = "insert into todos (task, createdAt, status) values (?, ?, ?)";
   db.query(q, [req.body.task, new Date(), "active"], (err, result) => {
     if (err) {
@@ -48,18 +47,16 @@ app.get("/read-tasks", (req, res) => {
 });
 
 app.post("/update-task", (req, res) => {
-  console.log(req.body);
   const q = "update todos set task = ? where id = ?";
 
   db.query(q, [req.body.updatedTask, req.body.updateId], (err, result) => {
     if (err) {
-      console.log(err);
-      console.log("failed to update");
+      console.log("failed to update: " + err.message);
     } else {
       console.log("updated");
       db.query("select * from todos", (e, r) => {
-        if (err) {
-          console.log(e);
+        if (e) {
+          console.log("failed to read task: " + e.message);
         } else {
           res.send(r);
         }

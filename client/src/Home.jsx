@@ -34,6 +34,8 @@ function Home() {
     axios.post("http://localhost:5000/update-task", { updateId, updatedTask }).then((res) => {
       setTodos(res.data);
       setUpdatedTask("");
+      setUpdateId(null);
+      setIsEdit(false);
     });
   };
 
@@ -135,7 +137,10 @@ function Home() {
                 >
                   Delete
                 </button>
-                <button className="text-green-600" onClick={() => handleComplete(todo.id)}>
+                <button
+                  className="text-green-600 cursor-pointer"
+                  onClick={() => handleComplete(todo.id)}
+                >
                   Completed
                 </button>
               </div>
